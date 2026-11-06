@@ -179,8 +179,8 @@ Sectors per track = 400, heads = 12, cylinders = 17000, bytes per sector = 512.
 
 | Partition | Partition table size (bytes) | `Get-Volume` size (bytes) | Difference |
 |---|---|---|---|
-| 1 (EFI) | 104,857,600 | Not listed by `Get-Volume` | See DiskPart / Disk Management (about 100 MB) |
-| 2 (MSR) | 16,777,216 | No file system, so no volume | Appears only in `Get-Partition` and DiskPart |
+| 1 (EFI) | 104,857,600 | Not listed by `Get-Volume` | DiskPart and Disk Management both show 100 MB, which matches 104,857,600 bytes (exactly 100 MiB) |
+| 2 (MSR) | 16,777,216 | No file system, so no volume | DiskPart shows 16 MB, which matches 16,777,216 bytes (exactly 16 MiB). Disk Management does not list it |
 | 3 (C:) | 511,292,997,632 | 511,292,993,536 | 4,096 |
 | 4 (Recovery) | 693,108,736 | 693,104,640 | 4,096 |
 
@@ -193,7 +193,7 @@ Sectors per track = 400, heads = 12, cylinders = 17000, bytes per sector = 512.
 1. **Partition vs volume:** the NTFS volumes are 4,096 bytes smaller than their partitions, which is a small amount of file system overhead (one 4 KiB cluster).
 2. **GB vs GiB:** the drive is sold as 512 GB (units of 1000³), but Windows divides by 1024³, so 512,110,190,592 bytes shows as 476.94 GB. No space is missing, only the unit differs.
 3. **Rounding:** DiskPart and Disk Management round to whole MB or GB, while these calculations use exact byte counts.
-4. **Hidden partitions:** the EFI and Reserved partitions are small and system-managed, so they are hidden or not shown in some tools.
+4. **Hidden partitions:** Disk Management does not show the 16 MB Reserved partition (screenshot 09), but DiskPart does (screenshot 08). This also explains a small gap in the disk size: Disk Management reports Disk 0 as 476.92 GB, while the exact size from `Get-Disk` is 476.94 GB. The difference is 0.0156 GB, which is the hidden 16 MB Reserved partition. Check: (104,857,600 + 511,292,997,632 + 693,108,736) ÷ 1024³ = 476.92 GB.
 
 ## 9. Boot Process (E1)
 
