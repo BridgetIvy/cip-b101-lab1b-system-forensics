@@ -1,23 +1,25 @@
-# Lab 1: Computer System Introduction for Digital Forensics
+# Lab 1B: PC System Fundamentals, Disk Sectors and Partition Analysis
 
 | | |
 |---|---|
 | **Name** | Bridget Yisa |
 | **Registration No.** | C11/26/PCDFIR/17009 |
-| **Course** | CIP-B101 Basic Computer Skills for Digital Forensics |
-| **Lab title** | Computer System Introduction |
+| **Course Code** | CIP-B101 |
+| **Course Title** | Basic Computer Skills for Digital Forensics |
+| **Lab Code** | Lab 1B |
+| **Lab Title** | PC System Fundamentals, Disk Sectors and Partition Analysis |
 | **Date** | 6 November 2026 |
 | **Instructor** | Basiru Aliyu |
 
-
+---
 
 ## 1. Introduction
 
-This experiment sets up the first profile for a Windows computer in the manner a novice investigator will undertake before any forensic investigation. The goal of this experiment is to observe, record, compute and check all of the above without making any changes to the computer system in question. I gathered system specifications, storage and partition data, process data and file system data through read-only commands. I computed partition sizes based on sector data and compared it with Windows’ reported partition size. All commands employed in this experiment were read-only.
+This lab builds an initial system profile of a Windows computer, the way a junior forensic trainee would before an investigation. The aim is to observe, record, calculate and verify, without changing anything on the machine. I collected system specifications, storage and partition details, a process list and file system information using read-only commands. I then calculated partition sizes from sector counts and checked them against what Windows reports. Every command used was read-only. No disk was formatted, resized, cleaned or modified.
 
 ## 2. Tools Used
 
-- Windows 10/11 (personal computer)
+- Windows 11 Pro (personal computer, HP EliteBook 840 G3)
 - System Information (`msinfo32`) and `systeminfo`
 - PowerShell: `Get-Disk`, `Get-Partition`, `Get-Volume`
 - Command Prompt: `tasklist`
@@ -73,7 +75,7 @@ This experiment sets up the first profile for a Windows computer in the manner a
 | `lsass.exe` | 116 | Local Security Authority Subsystem. Handles logins, password verification and security policy. |
 | `svchost.exe` | 1036 | A generic host process that runs Windows services. Many copies run at once. |
 
-*PIDs are valid only for this capture (11/6/2026) and change after a reboot.*
+*PIDs are valid only for this capture (6 November 2026) and change after a reboot.*
 
 ## 6. Program vs Process vs Thread (B2)
 
@@ -219,7 +221,7 @@ A[Power-on] --> B[POST] --> C[UEFI firmware + CMOS settings] --> D[EFI System Pa
 | Partition info | Partition table in sector 0 together with boot code | Primary and backup GPT headers and partition entries |
 | Forensic issue | Damage to sector 0 affects partition interpretation | The backup copy helps validation and recovery |
 
-My disk uses GPT, and it has a protective MBR at sector 0 and a backup GPT at the end of the disk.
+My disk uses GPT (confirmed by `Get-Disk`, screenshot 03). GPT disks normally also carry a protective MBR at sector 0 and a backup GPT at the end of the disk. I did not open the raw sectors in a hex viewer (the optional step D3), so I have not verified those structures directly.
 
 ## 11. File System Identification (F)
 
